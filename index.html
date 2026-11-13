@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hliadka 158 – stiahnutie</title>
+<style>
+:root{--bg:#0c1526;--fg:#e7edf6;--muted:#93a3bf;--card:#132037;--line:#2a3d62;--blue:#4f8cff;--amber:#ffb21f}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:640px;margin:0 auto;padding:28px 16px 56px}
+.bar{height:6px;background:linear-gradient(90deg,#ff5a5a 50%,var(--blue) 50%)}
+h1{font-size:2rem;margin:8px 0 2px;letter-spacing:.02em}
+h1 b{color:var(--amber)}
+.sub{color:var(--muted);margin:0 0 24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:18px}
+.dl{display:block;text-align:center;background:var(--blue);color:#fff;text-decoration:none;font-weight:700;font-size:1.15rem;
+  padding:16px;border-radius:12px;letter-spacing:.03em}
+.dl[aria-disabled=true]{background:#2a3d62;color:var(--muted);pointer-events:none}
+.ver{color:var(--muted);font-size:.9rem;text-align:center;margin-top:8px}
+ol{padding-left:22px;margin:0}
+li{margin-bottom:8px}
+small,.foot{color:var(--muted)}
+a{color:#7fa8ff}
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<main>
+<h1>HLIADKA <b>158</b></h1>
+<p class="sub">Policajný simulátor pre Android</p>
+
+<div class="card">
+  <a class="dl" id="dl" href="Hliadka158.apk" aria-disabled="true">Stiahnuť aplikáciu (APK)</a>
+  <p class="ver" id="ver">Načítavam verziu…</p>
+</div>
+
+<div class="card">
+  <b>Inštalácia</b>
+  <ol>
+    <li>Na telefóne s Androidom ťukni na <b>Stiahnuť aplikáciu</b>.</li>
+    <li>Otvor stiahnutý súbor <i>Hliadka158.apk</i>.</li>
+    <li>Ak sa telefón opýta, povoľ <b>inštaláciu z tohto zdroja</b> (prehliadača alebo Súborov) a ťukni na <b>Inštalovať</b>.</li>
+    <li>Hotovo – hra sa odteraz <b>aktualizuje sama</b>. Nové verzie hry sa stiahnu na pozadí a použijú sa pri ďalšom spustení,
+        pri novej verzii aplikácie sa zobrazí ponuka <b>Aktualizovať</b>.</li>
+  </ol>
+</div>
+
+<p class="foot">Vyžaduje Android 8.0 alebo novší. · <a href="zasady-ochrany-sukromia.html">Zásady ochrany súkromia</a></p>
+</main>
+<script>
+fetch("version.json?t=" + Date.now()).then(r => r.json()).then(v => {
+  const dl = document.getElementById("dl"), ver = document.getElementById("ver");
+  if (v.apk && v.apk.versionName) {
+    dl.removeAttribute("aria-disabled");
+    dl.href = (v.apk.subor || "Hliadka158.apk") + "?v=" + v.apk.versionCode;
+    ver.textContent = "Verzia aplikácie " + v.apk.versionName + (v.hra && v.hra.datum ? " · hra aktualizovaná " + v.hra.datum : "");
+  } else {
+    ver.textContent = "Aplikácia sa pripravuje – skús to o chvíľu.";
+  }
+}).catch(() => { document.getElementById("ver").textContent = "Verziu sa nepodarilo načítať."; });
+</script>
+</body>
+</html>
