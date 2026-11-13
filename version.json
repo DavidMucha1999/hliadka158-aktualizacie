@@ -4,5 +4,11 @@
                 "velkost":  7587038,
                 "datum":  "2026-11-13 21:38"
             },
-    "apk":  null
+    "apk":  {
+                "versionCode":  1,
+                "versionName":  "1.0.0",
+                "subor":  "Hliadka158.apk",
+                "sha256":  "50153bf58c7bec7a5db7b0877a30e2d6c97d1a28db6807643859f60aa2149edf",
+                "poznamka":  "Aktualizacia trva par sekund, ulozena hra zostane zachovana."
+            }
 }
