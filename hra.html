@@ -3150,6 +3150,7 @@ html.mob.mob-scr-chase #scr-chase .chase-hud > *{grid-column:auto!important;grid
 html.mob.mob-scr-chase #scr-chase .chase-hud .ch-n{display:flex;flex-direction:column}
 html.mob.mob-scr-chase #scr-chase .chase-hud .ch-n span,html.mob.mob-scr-chase #scr-chase .chase-hud .ch-dist .top span{font-size:.56rem;white-space:nowrap}
 html.mob.mob-scr-chase #scr-chase .chase-hud b{font-size:.95rem!important;line-height:1.1}
+html.mob.mob-game.mob-scr-chase .mob-scene .road-hint{top:calc(var(--mob-hud-h,40px) + 54px)!important;left:50%!important;transform:translateX(-50%);max-width:60%!important}
 html.mob.mob-scr-chase #scr-chase .ch-ctrl,html.mob.mob-scr-chase #scr-chase .keys{display:none!important}
 
 /* --- Vodná polícia a vrtuľník: herný „celý monitor“ na celú obrazovku, ovládače cez scénu --- */
@@ -3166,6 +3167,8 @@ html.mob #w-cv{touch-action:none}
 /* akadémia – polygón na celú obrazovku */
 html.mob.mob-ctx-acad #scr-acad{transform:none!important;animation:none!important;filter:none!important}
 html.mob.mob-ctx-acad #hud{visibility:hidden}
+html.mob.mob-ctx-acad,html.mob.mob-ctx-acad body,html.mob.mob-ctx-foot,html.mob.mob-ctx-foot body{overflow:hidden!important}
+html.mob.mob-ctx-acad #ac-cv{margin:0!important;display:block}
 html.mob.mob-ctx-acad #ac-arena{position:fixed!important;inset:0!important;z-index:85;margin:0!important;border-radius:0!important;border:0!important;overflow:hidden;padding:0!important;background:#000}
 html.mob.mob-ctx-acad #ac-arena .eyebrow{display:none}
 html.mob.mob-ctx-acad #ac-cv{width:100vw!important;height:100dvh!important;aspect-ratio:auto!important;border-radius:0!important}
@@ -3375,6 +3378,7 @@ function build(c){
   if(L)pad.appendChild(L);if(R)pad.appendChild(R);
   pad.classList.toggle("on",!!c);root.classList.toggle("mob-pad-on",!!c);
   ["water","heli","foot","acad","chase"].forEach(k=>root.classList.toggle("mob-ctx-"+k,c===k));
+  if(c==="acad"||c==="foot"){window.scrollTo(0,0);setTimeout(()=>window.scrollTo(0,0),400)}
   setTimeout(()=>{try{window.dispatchEvent(new Event("resize"))}catch(_){}},60);
 }
 /* vodná polícia a vrtuľník: vždy herný režim „celý monitor“ */
