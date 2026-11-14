@@ -3071,6 +3071,9 @@ html.mob.mob-game section.mob-active .card:not(.paper){background:rgba(12,20,36,
 html.mob.mob-game .mob-scene{position:fixed!important;inset:0!important;z-index:-1!important;width:100vw!important;height:100vh!important;height:100dvh!important;
   max-width:none!important;max-height:none!important;min-height:0!important;margin:0!important;border:0!important;border-radius:0!important;padding:0!important;
   transform:none!important;box-shadow:none!important}
+html.mob.mob-game section.mob-active .mob-scene.mob-scene.mob-scene{padding:0!important;background:#0b1220!important;border:0!important}
+html.mob.mob-game .mob-scene .cr-st{position:absolute!important;left:max(10px,env(safe-area-inset-left,0px));bottom:8px;z-index:3;margin:0!important;
+  max-width:calc(100% - var(--mob-pw) - 40px);background:rgba(8,14,26,.7);border-radius:8px;padding:4px 10px;font-size:.74rem}
 html.mob.mob-game .mob-scene canvas{width:100%!important;height:100%!important;max-height:none!important;min-height:0!important;border-radius:0!important;border:0!important}
 html.mob.mob-game .mob-scene .road-hint{top:calc(var(--mob-hud-h,40px) + 4px)!important;left:max(10px,env(safe-area-inset-left,0px))!important;right:auto!important;
   max-width:calc(100% - var(--mob-pw) - 150px)!important;font-size:.74rem}
