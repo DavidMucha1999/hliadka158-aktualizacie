@@ -3099,6 +3099,10 @@ html.mob.mob-game #mob-ptog{display:flex;align-items:center;gap:6px;position:fix
   text-transform:uppercase;letter-spacing:.05em}
 html.mob.mob-game.mob-panel-off #mob-ptog{right:max(8px,env(safe-area-inset-right,0px))}
 
+/* --- Mestská polícia: autá v paneli v dvoch stĺpcoch --- */
+html.mob.mob-game #scr-city .c-cars{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+html.mob.mob-game #scr-city .b-head .b-ttl{min-width:70px}
+
 /* --- Dopravná / motorka / civil: radar a zoznam áut v paneli --- */
 html.mob #scr-patrol .ptop #p-ttl{display:none}
 html.mob #scr-patrol .ptop{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
