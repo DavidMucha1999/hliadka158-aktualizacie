@@ -3101,6 +3101,13 @@ html.mob.mob-game #mob-ptog{display:flex;align-items:center;gap:6px;position:fix
   text-transform:uppercase;letter-spacing:.05em}
 html.mob.mob-game.mob-panel-off #mob-ptog{right:max(8px,env(safe-area-inset-right,0px))}
 
+/* --- hlavičky v úzkom paneli sa zalamujú --- */
+html.mob.mob-game section.mob-active .b-head{flex-wrap:wrap!important}
+html.mob.mob-game section.mob-active > div:not([class]):first-child{display:flex;flex-wrap:wrap;gap:6px}
+/* --- Operačné stredisko: aktuálny hovor navrchu panelu --- */
+html.mob.mob-game #scr-disp .d2-grid{display:flex!important;flex-direction:column}
+html.mob.mob-game #scr-disp .d2-mid{order:-1}
+
 /* --- Kriminálka: nástenka prípadu ako scéna na celú obrazovku --- */
 html.mob.mob-game .mob-scene .kb{height:100%!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important}
 html.mob.mob-game .mob-scene .kb > .eyebrow{display:none!important}
