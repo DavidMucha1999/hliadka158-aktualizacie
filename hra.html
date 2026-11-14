@@ -3005,10 +3005,10 @@ html.mob #hud .mob-radio .btn{flex:0 0 44px!important;min-height:40px}
 html.mob #hud .mob-radio .btn.mr-pw{flex:1 1 auto!important;justify-content:flex-start;text-transform:none;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 
 /* --- Toasty a titulky hore, mimo tlačidiel a ovládačov --- */
-html.mob .toast{bottom:auto!important;top:calc(var(--mob-hud-b,44px) + 6px)!important;max-width:min(520px,calc(100% - 2*var(--mob-col) - 16px))!important;font-size:.82rem;z-index:96!important;padding:6px 12px!important}
-html.mob #h11-sub{bottom:auto!important;top:calc(var(--mob-hud-b,44px) + 52px)!important;max-width:min(520px,calc(100% - 2*var(--mob-col) - 16px))!important;font-size:.78rem!important;padding:5px 10px!important;pointer-events:none;z-index:96!important}
-html.mob .tip-card{right:calc(var(--mob-pad-r,0px) + 10px)!important;bottom:10px!important;width:min(340px,45vw)!important;max-height:70vh;overflow:auto}
-html.mob #photo-bar{bottom:10px!important;max-width:calc(100% - 2*var(--mob-col) - 20px)}
+html.mob .toast{bottom:auto!important;top:calc(var(--mob-hud-b,44px) + 6px)!important;max-width:min(520px,calc(100% - var(--mob-pw,0px) - 24px))!important;font-size:.82rem;z-index:96!important;padding:6px 12px!important}
+html.mob #h11-sub{bottom:auto!important;top:calc(var(--mob-hud-b,44px) + 52px)!important;max-width:min(520px,calc(100% - var(--mob-pw,0px) - 24px))!important;font-size:.78rem!important;padding:5px 10px!important;pointer-events:none;z-index:96!important}
+html.mob .tip-card{right:10px!important;bottom:10px!important;width:min(340px,45vw)!important;max-height:70vh;overflow:auto}
+html.mob #photo-bar{bottom:10px!important;max-width:calc(100% - 20px)}
 
 /* --- Android aplikácia: celú obrazovku zabezpečuje systém, herné tlačidlá „Celá obrazovka“ nie sú potrebné --- */
 html.h158-app #fs-btn,html.h158-app .h15-fs,html.h158-app #mob-rot-go{display:none!important}
@@ -3024,134 +3024,160 @@ html.mob .w-help,html.mob .w2-keys{display:none!important}
 /* --- Okná (modal, návody) na nízkej obrazovke: vždy sa zmestia a dajú sa posúvať --- */
 html.mob #modal #mbox,html.mob .ovl > div{max-height:calc(100dvh - 16px)!important;overflow:auto!important}
 
-/* --- Mestská polícia: rozhodovací panel ako mriežka --- */
-html.mob .card.decide.b-dec{max-height:44vh;overflow:auto}
-html.mob .card.decide.b-dec .dbtns,html.mob .card.decide.b-dec .b-dbtns{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important}
-html.mob .card.decide.b-dec .dbtns .btn,html.mob .card.decide.b-dec .b-dbtns .btn{min-width:0!important;font-size:.76rem;padding:4px!important;min-height:40px}
+/* --- Hlavička režimu (mestská, hraničná, kriminálka, …): jeden nízky riadok --- */
+html.mob .b-head{padding:6px 10px!important;gap:8px!important;flex-wrap:nowrap!important;align-items:center!important;min-height:0!important}
+html.mob .b-head .hud-av,html.mob .b-head .today{display:none!important}
+html.mob .b-head .b-ttl{flex:1 1 auto;min-width:0}
+html.mob .b-head .b-ttl h2{font-size:1rem!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.mob .b-head .b-ttl .eyebrow{font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html.mob .b-head .b-q{padding:2px 6px!important;min-width:0;flex:0 0 auto;gap:0!important}
+html.mob .b-head .b-q em{display:none!important}
+html.mob .b-head .b-q span{font-size:.6rem}
+html.mob .b-head .b-q b{font-size:.9rem}
+html.mob .b-head .btn{min-height:36px!important;padding:4px 8px!important;white-space:nowrap;flex:0 0 auto;margin:0!important;font-size:.72rem!important}
+/* herné tlačidlo „Celá obrazovka“ v scéne – na mobile je hra vždy na celú obrazovku */
+html.mob .h15-b{display:none!important}
 
-/* --- Dopravná / motorka / civil (scr-patrol) na šírku: cesta vľavo stále viditeľná, radar vpravo --- */
-html.mob #scr-patrol:not([hidden]){display:grid!important;grid-template-columns:minmax(0,1fr) minmax(260px,38%);gap:8px 10px;align-items:start}
-html.mob #scr-patrol .ptop{grid-column:1/-1;display:flex;align-items:center;gap:10px;margin:0!important}
+/* =====================================================================================
+   HERNÝ REŽIM (všetky režimy): scéna na celú obrazovku, HUD, panel a tlačidlá cez ňu
+   ===================================================================================== */
+html.mob{--mob-pw:min(38vw,350px)}
+html.mob.mob-game body{overflow:hidden!important;padding:0!important}
+/* HUD – polopriehľadný pruh hore cez scénu */
+html.mob.mob-game #hud{position:fixed!important;top:0;left:0;right:0;z-index:40;margin:0!important;border:0!important;
+  padding:4px max(10px,env(safe-area-inset-right,0px)) 12px max(10px,env(safe-area-inset-left,0px))!important;
+  background:linear-gradient(rgba(5,9,16,.8),rgba(5,9,16,.4) 70%,rgba(5,9,16,0))!important;pointer-events:none}
+html.mob.mob-game #hud>*{pointer-events:auto}
+html.mob.mob-game #hud .meter{max-width:140px!important}
+html.mob.mob-game #hud .clock{text-shadow:0 1px 3px #000}
+/* sekcia = priehľadná vrstva nad scénou; jej obsah tvorí panel vpravo */
+html.mob.mob-game section.mob-active{position:fixed!important;inset:0!important;z-index:2;display:block!important;margin:0!important;
+  max-width:none!important;width:auto!important;height:auto!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;
+  padding:calc(var(--mob-hud-h,40px) + 4px) max(8px,env(safe-area-inset-right,0px)) 10px calc(100% - var(--mob-pw))!important;
+  transform:none!important;animation:none!important;filter:none!important;background:none!important;scrollbar-width:thin}
+html.mob.mob-game section.mob-active > *{margin:0 0 8px!important;max-width:100%!important;min-width:0!important;width:auto!important;grid-column:auto!important;grid-row:auto!important}
+html.mob.mob-game section.mob-active .b-grid,html.mob.mob-game section.mob-active .b-main,html.mob.mob-game section.mob-active .b-row,
+html.mob.mob-game section.mob-active .d2-grid,html.mob.mob-game section.mob-active .d2-col,html.mob.mob-game section.mob-active .cr-grid,
+html.mob.mob-game section.mob-active .k-grid,html.mob.mob-game section.mob-active .k-vis2,html.mob.mob-game section.mob-active .sgrid,
+html.mob.mob-game section.mob-active .prow{display:block!important;margin:0!important;padding:0!important}
+html.mob.mob-game section.mob-active .b-grid>*,html.mob.mob-game section.mob-active .b-main>*,html.mob.mob-game section.mob-active .b-row>*,
+html.mob.mob-game section.mob-active .d2-col>*,html.mob.mob-game section.mob-active .cr-side>*,html.mob.mob-game section.mob-active .k-grid>*,
+html.mob.mob-game section.mob-active .sgrid>*,html.mob.mob-game section.mob-active .prow>*{margin:0 0 8px!important;width:auto!important;max-width:100%!important}
+html.mob.mob-game section.mob-active .card{background:rgba(12,20,36,.8)!important;border-color:rgba(140,175,235,.25)!important;padding:10px!important;box-shadow:none!important}
+/* scéna – celá obrazovka pod všetkým */
+html.mob.mob-game .mob-scene{position:fixed!important;inset:0!important;z-index:-1!important;width:100vw!important;height:100vh!important;height:100dvh!important;
+  max-width:none!important;max-height:none!important;min-height:0!important;margin:0!important;border:0!important;border-radius:0!important;padding:0!important;
+  transform:none!important;box-shadow:none!important}
+html.mob.mob-game .mob-scene canvas{width:100%!important;height:100%!important;max-height:none!important;min-height:0!important;border-radius:0!important;border:0!important}
+html.mob.mob-game .mob-scene .road-hint{top:calc(var(--mob-hud-h,40px) + 4px)!important;left:max(10px,env(safe-area-inset-left,0px))!important;max-width:calc(100% - var(--mob-pw) - 30px);font-size:.78rem}
+/* rozhodovacie tlačidlá – plávajú vľavo dole nad scénou */
+html.mob.mob-game section.mob-active .card.decide{position:fixed!important;left:max(8px,env(safe-area-inset-left,0px))!important;bottom:8px!important;top:auto!important;right:auto!important;
+  width:min(calc(100vw - var(--mob-pw) - 26px),470px)!important;max-height:56vh;overflow:auto;z-index:20!important;margin:0!important;
+  background:rgba(8,14,26,.72)!important;padding:8px!important}
+html.mob.mob-game section.mob-active .card.decide .dl .muted{display:none}
+html.mob.mob-game section.mob-active .card.decide .eyebrow{font-size:.62rem;margin-bottom:4px}
+html.mob.mob-game section.mob-active .card.decide .dbtns,html.mob.mob-game section.mob-active .card.decide .b-dbtns{display:grid!important;
+  grid-template-columns:repeat(auto-fill,minmax(96px,1fr))!important;gap:6px!important}
+html.mob.mob-game section.mob-active .card.decide .btn{min-width:0!important;font-size:.72rem!important;padding:4px!important;min-height:44px;
+  background:rgba(22,35,61,.85)}
+/* schovaný panel – ostane scéna, HUD a rozhodnutie */
+html.mob.mob-game.mob-panel-off section.mob-active{visibility:hidden;overflow:hidden!important}
+html.mob.mob-game.mob-panel-off .mob-scene,html.mob.mob-game.mob-panel-off .mob-scene *,
+html.mob.mob-game.mob-panel-off section.mob-active .card.decide,html.mob.mob-game.mob-panel-off section.mob-active .card.decide *{visibility:visible}
+html.mob.mob-game.mob-panel-off section.mob-active .card.decide{width:min(calc(100vw - 24px),640px)!important}
+html.mob.mob-game.mob-panel-off .mob-scene .road-hint{max-width:calc(100% - 120px)}
+/* tlačidlo panelu */
+#mob-ptog{display:none}
+html.mob.mob-game #mob-ptog{display:flex;align-items:center;gap:6px;position:fixed;z-index:45;top:calc(var(--mob-hud-h,40px) + 4px);
+  right:calc(var(--mob-pw) + max(14px,env(safe-area-inset-right,0px)));height:36px;padding:0 12px;border-radius:18px;
+  background:rgba(8,14,26,.72);border:1px solid rgba(255,255,255,.3);color:#fff;font:700 .72rem var(--f-display,sans-serif);
+  text-transform:uppercase;letter-spacing:.05em}
+html.mob.mob-game.mob-panel-off #mob-ptog{right:max(8px,env(safe-area-inset-right,0px))}
+
+/* --- Dopravná / motorka / civil: radar a zoznam áut v paneli --- */
 html.mob #scr-patrol .ptop #p-ttl{display:none}
+html.mob #scr-patrol .ptop{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 html.mob #scr-patrol .ptop .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
-html.mob #scr-patrol .ptop .chip{font-size:.72rem;white-space:nowrap}
-html.mob #scr-patrol .ptop #btn-end{min-height:38px;padding:4px 12px;margin-left:auto}
-html.mob #scr-patrol .road-card{grid-column:1;grid-row:2 / span 2;position:sticky;top:calc(var(--mob-hud-b,44px) + 4px);margin:0!important;
-  height:calc(100dvh - var(--mob-hud-b,44px) - 12px);min-height:220px}
-html.mob #scr-patrol #road{height:100%!important;width:100%!important}
-html.mob #scr-patrol .prow{display:contents!important}
-html.mob #scr-patrol .prow > .card{grid-column:2;margin:0!important;padding:10px!important}
-html.mob #scr-patrol .card.radar{flex-wrap:wrap;gap:8px}
-html.mob #scr-patrol .limwrap{transform:scale(.72);transform-origin:top left;margin:-4px -24px -24px 0}
-html.mob #scr-patrol #rd-speed{font-size:2rem!important}
+html.mob #scr-patrol .ptop .chip{font-size:.68rem;white-space:nowrap}
+html.mob #scr-patrol .ptop #btn-end{min-height:36px;padding:4px 10px;margin-left:auto;font-size:.72rem}
+html.mob #scr-patrol .card.radar{display:flex!important;flex-wrap:wrap;gap:6px}
+html.mob #scr-patrol .limwrap{transform:scale(.62);transform-origin:top left;margin:-4px -36px -36px 0}
+html.mob #scr-patrol #rd-speed{font-size:1.8rem!important}
 html.mob #scr-patrol .ritem{min-height:44px;padding:6px 8px!important;grid-template-columns:auto 12px minmax(0,1fr) auto!important;gap:6px!important}
 html.mob #scr-patrol .ritem .rid kbd,html.mob #scr-patrol .ritem .rgo{display:none!important}
 html.mob #scr-patrol .ritem .rc{min-width:0}
 html.mob #scr-patrol .ritem .rc b,html.mob #scr-patrol .ritem .rc small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 html.mob #scr-patrol .ritem .rs{white-space:nowrap}
 
-/* --- Hlavička režimu (mestská, hraničná, kriminálka, …): jeden nízky riadok --- */
-html.mob .b-head{padding:6px 10px!important;gap:8px!important;flex-wrap:nowrap!important;align-items:center!important;min-height:0!important;margin-bottom:8px!important}
-html.mob .b-head .hud-av,html.mob .b-head .today{display:none!important}
-html.mob .b-head .b-ttl{flex:1 1 auto;min-width:0}
-html.mob .b-head .b-ttl h2{font-size:1.05rem!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-html.mob .b-head .b-ttl .eyebrow{font-size:.66rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-html.mob .b-head .b-q{padding:2px 8px!important;min-width:0;flex:0 0 auto;gap:0!important}
-html.mob .b-head .b-q em{display:none!important}
-html.mob .b-head .b-q span{font-size:.62rem}
-html.mob .b-head .b-q b{font-size:.92rem}
-html.mob .b-head .btn{min-height:38px!important;padding:4px 10px!important;white-space:nowrap;flex:0 0 auto;margin:0!important}
+/* --- Prenasledovanie autom: bez panelu, údaje a tlačidlá cez scénu --- */
+html.mob.mob-game.mob-scr-chase{--mob-pw:0px}
+html.mob.mob-game.mob-scr-chase #mob-ptog{display:none}
+html.mob.mob-game.mob-scr-chase section.mob-active{padding:0!important;overflow:hidden!important}
+html.mob.mob-scr-chase #scr-chase .ptop{position:fixed!important;top:calc(var(--mob-hud-h,40px) + 2px);right:max(8px,env(safe-area-inset-right,0px));z-index:21;margin:0!important;
+  display:flex;gap:6px;background:none!important}
+html.mob.mob-scr-chase #scr-chase .ptop > div:first-child{display:none}
+html.mob.mob-scr-chase #scr-chase .ptop .btn{min-height:32px!important;padding:2px 8px!important;font-size:.64rem!important;background:rgba(8,14,26,.6)}
+html.mob.mob-scr-chase #scr-chase .chase-hud{position:fixed!important;top:calc(var(--mob-hud-h,40px) + 2px);left:max(8px,env(safe-area-inset-left,0px));z-index:21;
+  width:min(46vw,420px)!important;display:grid!important;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr))!important;grid-template-rows:auto!important;
+  align-items:center;gap:8px!important;padding:4px 10px!important;margin:0!important;font-size:.74rem;background:rgba(8,14,26,.6)!important}
+html.mob.mob-scr-chase #scr-chase .chase-hud > *{grid-column:auto!important;grid-row:1!important}
+html.mob.mob-scr-chase #scr-chase .chase-hud .ch-n{display:flex;flex-direction:column}
+html.mob.mob-scr-chase #scr-chase .chase-hud .ch-n span,html.mob.mob-scr-chase #scr-chase .chase-hud .ch-dist .top span{font-size:.56rem;white-space:nowrap}
+html.mob.mob-scr-chase #scr-chase .chase-hud b{font-size:.95rem!important;line-height:1.1}
+html.mob.mob-scr-chase #scr-chase .ch-ctrl,html.mob.mob-scr-chase #scr-chase .keys{display:none!important}
 
-/* --- Výjazdová jednotka: mapa akcie vľavo stále viditeľná, udalosti a jednotky vpravo --- */
-html.mob .cr-grid{grid-template-columns:minmax(0,1fr) minmax(260px,38%)!important;gap:10px!important;align-items:start!important}
-html.mob .cr-grid > .cr-mapc{position:sticky;top:calc(var(--mob-hud-b,44px) + 4px);display:flex!important;flex-direction:column;
-  height:calc(100dvh - var(--mob-hud-b,44px) - 12px);margin:0!important;padding:6px!important}
-html.mob .cr-grid > .cr-mapc #cr-map{flex:1 1 auto;height:auto!important;min-height:0;width:100%!important}
-
-/* --- Kriminálka: spis a podozriví vedľa seba --- */
-html.mob .k-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important}
-/* --- Obrazovky s rozhodovacím panelom (kontrola vodiča, …): panel v pravom stĺpci namiesto dolnej polovice --- */
-html.mob section[id^="scr-"]:not([hidden]):has(> .card.decide){display:grid!important;grid-template-columns:minmax(0,1fr) clamp(220px,30%,300px);gap:8px 10px;align-items:start}
-html.mob section[id^="scr-"]:not([hidden]):has(> .card.decide) > *{grid-column:1;min-width:0}
-html.mob section[id^="scr-"]:not([hidden]) > .card.decide{grid-column:2!important;grid-row:1 / span 6;position:sticky!important;top:calc(var(--mob-hud-b,44px) + 4px)!important;bottom:auto!important;
-  max-height:calc(100dvh - var(--mob-hud-b,44px) - 12px);overflow:auto;margin:0!important;padding:10px!important;z-index:5}
-html.mob section[id^="scr-"]:not([hidden]) > .card.decide .dbtns{display:grid!important;grid-template-columns:1fr 1fr!important;gap:6px!important}
-html.mob section[id^="scr-"]:not([hidden]) > .card.decide .dbtns .btn{min-width:0!important;font-size:.76rem;padding:4px!important;min-height:44px}
-html.mob section[id^="scr-"]:not([hidden]) > .card.decide .dbtns .btn:last-child:nth-child(odd){grid-column:1 / -1}
-
-/* ===== Herné scény na celú obrazovku: scéna v strede, ovládače v bočných stĺpcoch ===== */
-html.mob.mob-pad-on{--mob-pad-l:var(--mob-col);--mob-pad-r:var(--mob-col)}
-html.mob.mob-pad-on .h15-bigc{left:var(--mob-pad-l)!important;right:var(--mob-pad-r)!important;top:0!important;bottom:0!important;width:auto!important;height:auto!important;max-height:none!important;border-radius:0!important}
-html.mob.mob-pad-on .h15-bigc>canvas{width:100%!important;height:100%!important}
-/* minimapa vodnej polície nesmie byť roztiahnutá cez celú scénu */
-html.mob .h15-bigc>#w2-map{width:170px!important;height:104px!important;right:8px!important;bottom:8px!important;opacity:.92}
-html.mob .h15-bigc>#w2-map.big{width:min(420px,90%)!important;height:min(250px,70%)!important;bottom:8px!important}
-html.mob .h15-bigc .h158-end,html.mob .h15-bigc .h15-fs{min-height:32px!important;height:32px!important;padding:4px 10px!important;font-size:.7rem!important;opacity:.9}
-/* akadémia – polygón (sekcia nesmie mať transform, inak fixed nefunguje) */
+/* --- Vodná polícia a vrtuľník: herný „celý monitor“ na celú obrazovku, ovládače cez scénu --- */
+html.mob .h15-bigc{inset:0!important;width:100vw!important;height:100dvh!important;max-height:none!important;border-radius:0!important}
+html.mob .h15-bigc>canvas{width:100%!important;height:100%!important}
+html.mob .h15-bigc>#w2-map{width:170px!important;height:104px!important;right:max(8px,env(safe-area-inset-right,0px))!important;top:8px!important;bottom:auto!important;opacity:.9}
+html.mob .h15-bigc>#w2-map.big{width:min(440px,70%)!important;height:min(260px,68%)!important;top:8px!important}
+html.mob .h15-bigc #w2-hud .act{top:8px!important;bottom:auto!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;
+  width:auto!important;max-width:min(46%,440px)!important;font-size:.76rem!important;padding:5px 10px!important;opacity:.95}
+html.mob .h15-bigc #w2-hud .w2-st{font-size:.8em}
+html.mob .h15-bigc .h158-end,html.mob .h15-bigc .h15-fs{min-height:30px!important;height:30px!important;padding:2px 8px!important;font-size:.66rem!important;opacity:.85}
+html.mob.mob-ctx-water .h15-x{display:none!important}
+html.mob #w-cv{touch-action:none}
+/* akadémia – polygón na celú obrazovku */
 html.mob.mob-ctx-acad #scr-acad{transform:none!important;animation:none!important;filter:none!important}
 html.mob.mob-ctx-acad #hud{visibility:hidden}
-html.mob.mob-ctx-acad #ac-arena{position:fixed!important;top:0!important;bottom:0!important;left:var(--mob-pad-l)!important;right:var(--mob-pad-r)!important;z-index:85;margin:0!important;border-radius:0!important;overflow:auto;padding:6px 10px!important;background:var(--panel)}
+html.mob.mob-ctx-acad #ac-arena{position:fixed!important;inset:0!important;z-index:85;margin:0!important;border-radius:0!important;border:0!important;overflow:hidden;padding:0!important;background:#000}
 html.mob.mob-ctx-acad #ac-arena .eyebrow{display:none}
-html.mob.mob-ctx-acad #ac-cv{height:calc(100dvh - 60px)!important;width:100%!important;aspect-ratio:auto!important}
-/* prenasledovanie autom: cesta v strede na celú výšku, ovládače po stranách */
-html.mob.mob-ctx-chase body{padding-left:calc(var(--mob-col) + 8px)!important;padding-right:calc(var(--mob-col) + 8px)!important}
-html.mob.mob-ctx-chase #scr-chase{display:flex!important;flex-direction:column;gap:6px;height:calc(100dvh - var(--mob-hud-b,44px) - 10px);transform:none!important}
-html.mob.mob-ctx-chase #scr-chase .ptop{display:flex;align-items:center;gap:8px;margin:0!important}
-html.mob.mob-ctx-chase #scr-chase .ptop h2{display:none}
-html.mob.mob-ctx-chase #scr-chase .ptop .eyebrow{font-size:.66rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-html.mob.mob-ctx-chase #scr-chase .ptop .mrow{margin-left:auto;gap:6px;flex-wrap:nowrap}
-html.mob.mob-ctx-chase #scr-chase .ptop .btn{min-height:34px!important;padding:2px 8px!important;font-size:.68rem}
-html.mob.mob-ctx-chase #scr-chase .chase-hud{display:grid!important;grid-template-columns:minmax(0,2fr) repeat(3,minmax(0,1fr))!important;grid-template-rows:auto!important;align-items:center;
-  padding:4px 10px!important;margin:0!important;gap:10px!important;font-size:.78rem}
-html.mob.mob-ctx-chase #scr-chase .chase-hud > *{grid-column:auto!important;grid-row:1!important}
-html.mob.mob-ctx-chase #scr-chase .chase-hud .ch-dist .top{font-size:.66rem}
-html.mob.mob-ctx-chase #scr-chase .chase-hud .ch-dist .top b{font-size:.95rem}
-html.mob.mob-ctx-chase #scr-chase .chase-hud .ch-n{display:flex;flex-direction:column;gap:0}
-html.mob.mob-ctx-chase #scr-chase .chase-hud .ch-n span{font-size:.6rem;white-space:nowrap}
-html.mob.mob-ctx-chase #scr-chase .chase-hud .ch-n b{font-size:1rem!important;line-height:1.1}
-html.mob.mob-ctx-chase #scr-chase .road-card{flex:1 1 auto;min-height:0;margin:0!important;position:relative}
-html.mob.mob-ctx-chase #scr-chase .road-card canvas{height:100%!important;width:100%!important}
-html.mob.mob-ctx-chase #scr-chase .ch-ctrl,html.mob.mob-ctx-chase #scr-chase .keys{display:none!important}
+html.mob.mob-ctx-acad #ac-cv{width:100vw!important;height:100dvh!important;aspect-ratio:auto!important;border-radius:0!important}
+html.mob.mob-ctx-acad #ac-hud{position:fixed!important;top:6px;left:50%;transform:translateX(-50%);z-index:86;background:rgba(8,14,26,.65);border-radius:10px;padding:4px 10px;margin:0!important}
 /* pešie prenasledovanie */
-html.mob.mob-ctx-foot .ovl:has(#fc-cv){left:var(--mob-pad-l)!important;right:var(--mob-pad-r)!important;width:auto!important}
-html.mob.mob-ctx-foot .ovl:has(#fc-cv) > div{max-width:none!important;width:100%!important;margin:0!important}
-html.mob.mob-ctx-foot #fc-cv{height:calc(100dvh - 110px)!important}
+html.mob.mob-ctx-foot .ovl:has(#fc-cv){inset:0!important;width:auto!important;padding:0!important}
+html.mob.mob-ctx-foot .ovl:has(#fc-cv) > div{max-width:none!important;width:100%!important;height:100%!important;margin:0!important;border-radius:0!important;max-height:none!important}
+html.mob.mob-ctx-foot #fc-cv{height:calc(100dvh - 70px)!important}
 
-/* vodná polícia na šírku: nápoveda dole vľavo (vpravo dole je minimapa), bez tlačidla „Zmenšiť“ */
-html.mob .h15-bigc #w2-hud .act{top:auto!important;bottom:8px!important;left:8px!important;right:auto!important;transform:none!important;
-  width:auto!important;max-width:calc(100% - 196px)!important;font-size:.8rem!important;padding:6px 10px!important}
-html.mob .h15-bigc #w2-hud .w2-st{transform-origin:top left;font-size:.85em}
-html.mob.mob-ctx-water .h15-x{display:none!important}
-#mob-pad .mp-b.end{min-height:34px;font-size:.66rem;background:#2a1520;border-color:rgba(255,96,96,.55)}
-
-/* --- Vodná polícia: ťahanie prstom po scéne otáča kameru --- */
-html.mob #w-cv{touch-action:none}
-
-/* ===== Dotykové ovládanie: dva bočné stĺpce ===== */
+/* =====================================================================================
+   OVLÁDAČE – priesvitné, v rohoch priamo cez obraz
+   ===================================================================================== */
 #mob-pad{display:none}
 html.mob #mob-pad.on{display:block;position:fixed;inset:0;z-index:90;pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-#mob-pad .mp-col{position:absolute;top:0;bottom:0;width:var(--mob-col);display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;
-  padding:10px 8px calc(10px + env(safe-area-inset-bottom,0px));background:#0a0f1a;pointer-events:auto;touch-action:none}
-#mob-pad .mp-col.l{left:0;border-right:1px solid var(--line,#2a3d62);padding-left:max(8px,env(safe-area-inset-left,0px))}
-#mob-pad .mp-col.r{right:0;border-left:1px solid var(--line,#2a3d62);padding-right:max(8px,env(safe-area-inset-right,0px))}
-#mob-pad .mp-stick{width:112px;height:112px;flex:0 0 112px;border-radius:50%;position:relative;pointer-events:auto;touch-action:none;
-  background:radial-gradient(circle,rgba(30,48,82,.7),rgba(14,22,40,.9));border:2px solid rgba(120,160,230,.55)}
-#mob-pad .mp-knob{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;
-  background:rgba(79,140,255,.9);border:2px solid rgba(255,255,255,.55);box-shadow:0 4px 14px rgba(0,0,0,.45);transition:transform .08s}
-#mob-pad .mp-stick.act .mp-knob{transition:none}
-#mob-pad .mp-l{position:absolute;font:700 10px var(--f-mono,monospace);color:#d6e4ff;opacity:.85;pointer-events:none;line-height:1;text-align:center}
-#mob-pad .mp-l.u{top:6px;left:0;right:0}#mob-pad .mp-l.d{bottom:6px;left:0;right:0}
-#mob-pad .mp-l.lf{left:6px;top:50%;margin-top:-5px}#mob-pad .mp-l.rt{right:6px;top:50%;margin-top:-5px}
-#mob-pad .mp-b{pointer-events:auto;touch-action:none;width:100%;min-height:42px;flex:0 0 auto;padding:2px 6px;border-radius:10px;
-  background:#16233d;border:1px solid rgba(120,160,230,.55);color:#fff;font:700 .74rem var(--f-display,sans-serif);
-  text-transform:uppercase;letter-spacing:.04em;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;cursor:pointer;line-height:1.1}
-#mob-pad .mp-b small{font:600 9px var(--f-mono,monospace);opacity:.7;text-transform:none}
-#mob-pad .mp-b.big{min-height:64px;font-size:.9rem}
-#mob-pad .mp-b.on{background:#4f8cff;border-color:#fff}
-#mob-pad .mp-pair{display:flex;gap:6px;width:100%}
-#mob-pad .mp-pair .mp-b{flex:1 1 0;width:auto}
-#mob-pad .mp-sp{flex:1 1 auto}
-@media (max-height:360px){#mob-pad .mp-stick{width:100px;height:100px;flex-basis:100px}#mob-pad .mp-b{min-height:38px}}
+#mob-pad .mp-col{position:absolute;bottom:0;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;pointer-events:none;
+  padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px))}
+#mob-pad .mp-col.l{left:0;align-items:flex-start;padding-left:max(14px,env(safe-area-inset-left,0px))}
+#mob-pad .mp-col.r{right:0;align-items:flex-end;padding-right:max(14px,env(safe-area-inset-right,0px))}
+#mob-pad .mp-row{display:flex;gap:10px;align-items:flex-end}
+#mob-pad .mp-stick{width:128px;height:128px;flex:0 0 128px;border-radius:50%;position:relative;pointer-events:auto;touch-action:none;
+  background:radial-gradient(circle,rgba(255,255,255,.06),rgba(255,255,255,.12));border:2px solid rgba(255,255,255,.38)}
+#mob-pad .mp-knob{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;
+  background:rgba(255,255,255,.5);border:2px solid rgba(255,255,255,.7);box-shadow:0 2px 10px rgba(0,0,0,.35);transition:transform .08s}
+#mob-pad .mp-stick.act .mp-knob{transition:none;background:rgba(120,170,255,.75)}
+#mob-pad .mp-l{position:absolute;font:700 10px var(--f-mono,monospace);color:#fff;opacity:.8;pointer-events:none;line-height:1;text-align:center;text-shadow:0 1px 2px #000}
+#mob-pad .mp-l.u{top:7px;left:0;right:0}#mob-pad .mp-l.d{bottom:7px;left:0;right:0}
+#mob-pad .mp-l.lf{left:7px;top:50%;margin-top:-5px}#mob-pad .mp-l.rt{right:7px;top:50%;margin-top:-5px}
+#mob-pad .mp-b{pointer-events:auto;touch-action:none;min-width:96px;min-height:42px;padding:3px 10px;border-radius:21px;
+  background:rgba(8,14,26,.42);border:1.5px solid rgba(255,255,255,.4);color:#fff;font:700 .72rem var(--f-display,sans-serif);
+  text-transform:uppercase;letter-spacing:.04em;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;cursor:pointer;line-height:1.1;
+  text-shadow:0 1px 2px #000}
+#mob-pad .mp-b small{font:600 9px var(--f-mono,monospace);opacity:.75;text-transform:none}
+/* hlavné akčné tlačidlá – veľké okrúhle */
+#mob-pad .mp-b.big{width:76px;height:76px;min-width:0;min-height:0;padding:4px;border-radius:50%;font-size:.7rem;text-align:center}
+#mob-pad .mp-b.on{background:rgba(79,140,255,.75);border-color:#fff}
+#mob-pad .mp-b.end{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);min-width:0;min-height:30px;padding:2px 12px;font-size:.6rem;
+  background:rgba(60,14,20,.55);border-color:rgba(255,120,120,.55)}
+@media (max-height:360px){#mob-pad .mp-stick{width:112px;height:112px;flex-basis:112px}#mob-pad .mp-b.big{width:66px;height:66px}}
 </style>
 <div id="mob-pad" aria-hidden="true"></div>
 <div id="mob-rot" role="dialog" aria-label="Otoč telefón na šírku">
@@ -3295,36 +3321,39 @@ function clickBtn(label,sel,cls){
   b.addEventListener("click",()=>{const t=$(sel);if(t)t.click()});return b;
 }
 const el=(cls,...k)=>{const d=document.createElement("div");d.className=cls;k.forEach(x=>d.appendChild(x));return d};
-const sp=()=>el("mp-sp");
+const row=(...k)=>el("mp-row",...k);
 function build(c){
   pad.querySelectorAll(".mp-stick,.mp-b").forEach(x=>x._end&&x._end());
   releaseAll();pad.innerHTML="";
-  let L=null,R=null;
+  let L=null,R=null,X=null;
+  /* vľavo dole joystick / smer, vpravo dole veľké okrúhle akčné tlačidlá – priamo cez obraz */
   if(c==="water"){
-    L=el("mp-col l",clickBtn("Ukončiť službu","#w-end","end"),sp(),btn("Majáky","b","tap"),btn("Mapa","m","tap"),stick({u:"w",d:"s",l:"a",r:"d"},["▲ W plyn","▼ S späť","◀A","D▶"]));
-    R=el("mp-col r",sp(),btn("Štart motora","r","hold","big"),btn("Stop / kontrola","e","tap","big"));
+    L=el("mp-col l",row(btn("Majáky","b","tap"),btn("Mapa","m","tap")),stick({u:"w",d:"s",l:"a",r:"d"},["▲ W plyn","▼ S späť","◀A","D▶"]));
+    R=el("mp-col r",row(btn("Stop / kontrola","e","tap","big"),btn("Štart motora","r","hold","big")));
+    X=clickBtn("Ukončiť službu","#w-end","end");
   }else if(c==="heli"){
-    L=el("mp-col l",sp(),btn("Identifikovať"," ","tap"),btn("Termo","t","tap"),stick({u:"w",d:"s",l:"a",r:"d"},["▲ W vpred","▼ S vzad","◀A","D▶"]));
-    R=el("mp-col r",sp(),el("mp-pair",btn("Kamera","c","tap"),btn("Mapa","m","tap")),btn("Základňa","h","tap"),stick({u:"r",d:"f",l:"q",r:"e"},["R stúpať","F klesať","Q","E"]));
+    L=el("mp-col l",row(btn("Identifikovať"," ","tap"),btn("Termo","t","tap")),stick({u:"w",d:"s",l:"a",r:"d"},["▲ W vpred","▼ S vzad","◀A","D▶"]));
+    R=el("mp-col r",row(btn("Kamera","c","tap"),btn("Mapa","m","tap"),btn("Základňa","h","tap")),stick({u:"r",d:"f",l:"q",r:"e"},["R stúpať","F klesať","Q","E"]));
   }else if(c==="chase"){
-    L=el("mp-col l",sp(),el("mp-pair",btn("« Pruh","q","tap"),btn("Pruh »","e","tap")),btn("◀ Vľavo","a","hold","big"),btn("Vpravo ▶","d","hold","big"));
-    R=el("mp-col r",sp(),btn("Plný plyn","w","hold","big"),btn("Brzda","s","hold","big"));
+    L=el("mp-col l",row(btn("« Pruh","q","tap"),btn("Pruh »","e","tap")),row(btn("◀","a","hold","big"),btn("▶","d","hold","big")));
+    R=el("mp-col r",row(btn("Brzda","s","hold","big"),btn("Plyn","w","hold","big")));
   }else if(c==="foot"){
-    L=el("mp-col l",sp(),btn("◀ Vľavo","a","hold","big"),btn("Vpravo ▶","d","hold","big"));
-    R=el("mp-col r",sp(),btn("Šprint","w","hold","big"),btn("Skok"," ","tap","big"));
+    L=el("mp-col l",row(btn("◀","a","hold","big"),btn("▶","d","hold","big")));
+    R=el("mp-col r",row(btn("Skok"," ","tap","big"),btn("Šprint","w","hold","big")));
   }else if(c==="acad"){
-    L=el("mp-col l",sp(),btn("◀ Vľavo","ArrowLeft","tap","big"),btn("Vpravo ▶","ArrowRight","tap","big"));
-    R=el("mp-col r",sp(),btn("Brzda"," ","tap","big"));
+    L=el("mp-col l",row(btn("◀","ArrowLeft","tap","big"),btn("▶","ArrowRight","tap","big")));
+    R=el("mp-col r",row(btn("Brzda"," ","tap","big")));
   }
+  if(X)pad.appendChild(X);
   if(L)pad.appendChild(L);if(R)pad.appendChild(R);
   pad.classList.toggle("on",!!c);root.classList.toggle("mob-pad-on",!!c);
   ["water","heli","foot","acad","chase"].forEach(k=>root.classList.toggle("mob-ctx-"+k,c===k));
   setTimeout(()=>{try{window.dispatchEvent(new Event("resize"))}catch(_){}},60);
 }
-/* vodná polícia: na šírku vždy herný režim „celý monitor“ (scéna medzi ovládačmi) */
+/* vodná polícia a vrtuľník: vždy herný režim „celý monitor“ */
 let bigTry=0;
 function ensureBig(){
-  if(ctx!=="water"||document.body.classList.contains("h15-big"))return;
+  if((ctx!=="water"&&ctx!=="heli")||document.body.classList.contains("h15-big"))return;
   const now=Date.now();if(now-bigTry<1500)return;bigTry=now;
   fire("keydown","F9");fire("keyup","F9");
 }
@@ -3342,9 +3371,42 @@ function bridgeDrag(cv){
   cv.addEventListener("touchend",e=>{if(cv._mobMoved){e.preventDefault();cv._mobMoved=false}},{passive:false});
 }
 
+/* ---------- HERNÝ REŽIM: scéna každého režimu na celú obrazovku, obsah ako panel cez ňu ---------- */
+const SCENES={"scr-patrol":".road-card","scr-chase":".road-card","scr-stop":".stop-scene","scr-city":"#c-cv","scr-border":"#b-cv",
+  "scr-disp":".d-mapc","scr-crowd":".cr-mapc","scr-crim":".k-vis"};
+let gameSec=null,gameScene=null;
+const ptog=document.createElement("button");ptog.type="button";ptog.id="mob-ptog";
+ptog.addEventListener("click",e=>{e.stopPropagation();root.classList.toggle("mob-panel-off");syncPtog();
+  setTimeout(()=>{try{window.dispatchEvent(new Event("resize"))}catch(_){}},30)});
+function syncPtog(){ptog.textContent=root.classList.contains("mob-panel-off")?"◧ Panel":"✕ Panel"}
+document.body.appendChild(ptog);syncPtog();
+function clearGame(){
+  if(gameSec)gameSec.classList.remove("mob-active");
+  if(gameScene)gameScene.classList.remove("mob-scene");
+  gameSec=gameScene=null;
+  root.classList.remove("mob-game");
+  [...root.classList].filter(c=>c.startsWith("mob-scr-")).forEach(c=>root.classList.remove(c));
+}
+function applyGame(){
+  const sec=document.querySelector('section[id^="scr-"]:not([hidden])');
+  const sel=sec&&SCENES[sec.id];
+  const sc=sel&&!document.body.classList.contains("h15-big")?sec.querySelector(sel):null;
+  if(!sc){if(gameSec)clearGame();return}
+  if(sec===gameSec&&sc===gameScene&&sc.classList.contains("mob-scene")&&sec.classList.contains("mob-active"))return;
+  const first=sec!==gameSec;
+  clearGame();
+  gameSec=sec;gameScene=sc;
+  sec.classList.add("mob-active");sc.classList.add("mob-scene");
+  root.classList.add("mob-game","mob-scr-"+sec.id.slice(4));
+  if(first){root.classList.remove("mob-panel-off");syncPtog();sec.scrollTop=0}
+  setTimeout(()=>{try{window.dispatchEvent(new Event("resize"))}catch(_){}},50);
+}
+
 /* ---------- hlavná slučka ---------- */
 function tick(){
   try{watchHud()}catch(e){}
+  try{applyGame()}catch(e){}
+  try{const h=$("#hud");root.style.setProperty("--mob-hud-h",(vis(h)?Math.round(h.getBoundingClientRect().height):0)+"px")}catch(e){}
   try{const c=detect();if(c!==ctx){ctx=c;build(c)}}catch(e){}
   try{ensureBig()}catch(e){}
   try{bridgeDrag($("#w-cv"))}catch(e){}
