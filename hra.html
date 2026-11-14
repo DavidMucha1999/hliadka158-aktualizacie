@@ -3042,6 +3042,7 @@ html.mob .h15-b{display:none!important}
    HERNÝ REŽIM (všetky režimy): scéna na celú obrazovku, HUD, panel a tlačidlá cez ňu
    ===================================================================================== */
 html.mob{--mob-pw:min(38vw,350px)}
+html.mob{scrollbar-gutter:auto!important}
 html.mob.mob-game body{overflow:hidden!important;padding:0!important}
 /* HUD – polopriehľadný pruh hore cez scénu */
 html.mob.mob-game #hud{position:fixed!important;top:0;left:0;right:0;z-index:40;margin:0!important;border:0!important;
@@ -3069,7 +3070,11 @@ html.mob.mob-game .mob-scene{position:fixed!important;inset:0!important;z-index:
   max-width:none!important;max-height:none!important;min-height:0!important;margin:0!important;border:0!important;border-radius:0!important;padding:0!important;
   transform:none!important;box-shadow:none!important}
 html.mob.mob-game .mob-scene canvas{width:100%!important;height:100%!important;max-height:none!important;min-height:0!important;border-radius:0!important;border:0!important}
-html.mob.mob-game .mob-scene .road-hint{top:calc(var(--mob-hud-h,40px) + 4px)!important;left:max(10px,env(safe-area-inset-left,0px))!important;max-width:calc(100% - var(--mob-pw) - 30px);font-size:.78rem}
+html.mob.mob-game .mob-scene .road-hint{top:calc(var(--mob-hud-h,40px) + 4px)!important;left:max(10px,env(safe-area-inset-left,0px))!important;right:auto!important;
+  max-width:calc(100% - var(--mob-pw) - 150px)!important;font-size:.74rem}
+/* hlavičky režimov v paneli – vlastný podklad, aby sa dali čítať cez scénu */
+html.mob.mob-game section.mob-active > .ptop,html.mob.mob-game section.mob-active > .stop-head,html.mob.mob-game section.mob-active > div:not([class]):first-child{
+  background:rgba(12,20,36,.8);border:1px solid rgba(140,175,235,.25);border-radius:10px;padding:6px 8px!important}
 /* rozhodovacie tlačidlá – plávajú vľavo dole nad scénou */
 html.mob.mob-game section.mob-active .card.decide{position:fixed!important;left:max(8px,env(safe-area-inset-left,0px))!important;bottom:8px!important;top:auto!important;right:auto!important;
   width:min(calc(100vw - var(--mob-pw) - 26px),470px)!important;max-height:56vh;overflow:auto;z-index:20!important;margin:0!important;
@@ -3370,6 +3375,16 @@ function bridgeDrag(cv){
   /* po ťahaní zablokuj „klik“ (inak by čln plával na miesto, kde prst skončil) */
   cv.addEventListener("touchend",e=>{if(cv._mobMoved){e.preventDefault();cv._mobMoved=false}},{passive:false});
 }
+
+/* Hra kreslí scény iba do plátien s offsetParent – pri position:fixed je offsetParent vždy null,
+   preto plátnu scény v hernom režime vrátime <body>, kým je naozaj zobrazené. */
+try{
+  const d=Object.getOwnPropertyDescriptor(HTMLElement.prototype,"offsetParent");
+  if(d&&d.get){Object.defineProperty(HTMLElement.prototype,"offsetParent",{configurable:true,enumerable:d.enumerable,get(){
+    const p=d.get.call(this);
+    if(p===null&&this.classList&&this.classList.contains("mob-scene")&&this.isConnected&&!this.closest("[hidden]")&&getComputedStyle(this).display!=="none")return document.body;
+    return p}})}
+}catch(e){}
 
 /* ---------- HERNÝ REŽIM: scéna každého režimu na celú obrazovku, obsah ako panel cez ňu ---------- */
 const SCENES={"scr-patrol":".road-card","scr-chase":".road-card","scr-stop":".stop-scene","scr-city":"#c-cv","scr-border":"#b-cv",
