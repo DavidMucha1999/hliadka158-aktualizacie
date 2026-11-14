@@ -3049,12 +3049,14 @@ html.mob.mob-game #hud{position:fixed!important;top:0;left:0;right:0;z-index:40;
   padding:4px max(10px,env(safe-area-inset-right,0px)) 12px max(10px,env(safe-area-inset-left,0px))!important;
   background:linear-gradient(rgba(5,9,16,.8),rgba(5,9,16,.4) 70%,rgba(5,9,16,0))!important;pointer-events:none}
 html.mob.mob-game #hud>*{pointer-events:auto}
+/* HUD je len nad scénou; panel vpravo ide až po horný okraj, aby sa pri posúvaní neprekrývali */
+html.mob.mob-game:not(.mob-panel-off):not(.mob-scr-chase) #hud{right:calc(var(--mob-pw) + 12px)!important}
 html.mob.mob-game #hud .meter{max-width:140px!important}
 html.mob.mob-game #hud .clock{text-shadow:0 1px 3px #000}
 /* sekcia = priehľadná vrstva nad scénou; jej obsah tvorí panel vpravo */
 html.mob.mob-game section.mob-active{position:fixed!important;inset:0!important;z-index:2;display:block!important;margin:0!important;
   max-width:none!important;width:auto!important;height:auto!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain;
-  padding:calc(var(--mob-hud-h,40px) + 4px) max(8px,env(safe-area-inset-right,0px)) 10px calc(100% - var(--mob-pw))!important;
+  padding:max(8px,env(safe-area-inset-top,0px)) max(8px,env(safe-area-inset-right,0px)) 10px calc(100% - var(--mob-pw))!important;
   transform:none!important;animation:none!important;filter:none!important;background:none!important;scrollbar-width:thin}
 html.mob.mob-game section.mob-active > *{margin:0 0 8px!important;max-width:100%!important;min-width:0!important;width:auto!important;grid-column:auto!important;grid-row:auto!important}
 html.mob.mob-game section.mob-active .b-grid,html.mob.mob-game section.mob-active .b-main,html.mob.mob-game section.mob-active .b-row,
@@ -3064,7 +3066,7 @@ html.mob.mob-game section.mob-active .prow{display:block!important;margin:0!impo
 html.mob.mob-game section.mob-active .b-grid>*,html.mob.mob-game section.mob-active .b-main>*,html.mob.mob-game section.mob-active .b-row>*,
 html.mob.mob-game section.mob-active .d2-col>*,html.mob.mob-game section.mob-active .cr-side>*,html.mob.mob-game section.mob-active .k-grid>*,
 html.mob.mob-game section.mob-active .sgrid>*,html.mob.mob-game section.mob-active .prow>*{margin:0 0 8px!important;width:auto!important;max-width:100%!important}
-html.mob.mob-game section.mob-active .card{background:rgba(12,20,36,.8)!important;border-color:rgba(140,175,235,.25)!important;padding:10px!important;box-shadow:none!important}
+html.mob.mob-game section.mob-active .card:not(.paper){background:rgba(12,20,36,.8)!important;border-color:rgba(140,175,235,.25)!important;padding:10px!important;box-shadow:none!important}
 /* scéna – celá obrazovka pod všetkým */
 html.mob.mob-game .mob-scene{position:fixed!important;inset:0!important;z-index:-1!important;width:100vw!important;height:100vh!important;height:100dvh!important;
   max-width:none!important;max-height:none!important;min-height:0!important;margin:0!important;border:0!important;border-radius:0!important;padding:0!important;
@@ -3098,6 +3100,11 @@ html.mob.mob-game #mob-ptog{display:flex;align-items:center;gap:6px;position:fix
   background:rgba(8,14,26,.72);border:1px solid rgba(255,255,255,.3);color:#fff;font:700 .72rem var(--f-display,sans-serif);
   text-transform:uppercase;letter-spacing:.05em}
 html.mob.mob-game.mob-panel-off #mob-ptog{right:max(8px,env(safe-area-inset-right,0px))}
+
+/* --- Kriminálka: nástenka prípadu ako scéna na celú obrazovku --- */
+html.mob.mob-game .mob-scene .kb{height:100%!important;padding:0!important;margin:0!important;border:0!important;border-radius:0!important}
+html.mob.mob-game .mob-scene .kb > .eyebrow{display:none!important}
+html.mob.mob-game .mob-scene .kb-cork{height:100%!important;border-radius:0!important}
 
 /* --- Mestská polícia: autá v paneli v dvoch stĺpcoch --- */
 html.mob.mob-game #scr-city .c-cars{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
